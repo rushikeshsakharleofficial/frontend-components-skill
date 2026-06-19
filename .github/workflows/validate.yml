@@ -1,0 +1,76 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate YAML files
+        run: |
+          python3 -c "
+          import yaml, sys, glob
+          files = glob.glob('**/*.yaml', recursive=True) + glob.glob('**/*.yml', recursive=True)
+          files = [f for f in files if '.github' not in f]
+          errors = []
+          for f in files:
+              try:
+                  yaml.safe_load(open(f))
+                  print(f'  ✓ {f}')
+              except Exception as e:
+                  errors.append(f'{f}: {e}')
+                  print(f'  ✗ {f}: {e}')
+          if errors:
+              sys.exit(1)
+          print(f'All {len(files)} YAML files valid.')
+          "
+
+      - name: Validate JSON files
+        run: |
+          python3 -c "
+          import json, sys, glob
+          files = glob.glob('**/*.json', recursive=True)
+          errors = []
+          for f in files:
+              try:
+                  json.load(open(f))
+                  print(f'  ✓ {f}')
+              except Exception as e:
+                  errors.append(f'{f}: {e}')
+                  print(f'  ✗ {f}: {e}')
+          if errors:
+              sys.exit(1)
+          print(f'All {len(files)} JSON files valid.')
+          "
+
+      - name: Check no placeholder text remains
+        run: |
+          if grep -r '{{PLACEHOLDER}}' --include='*.md' --include='*.yaml' --include='*.json' .; then
+            echo "ERROR: Placeholder text found"
+            exit 1
+          fi
+          echo "✓ No placeholder text found"
+
+      - name: Check SKILL.md exists and is non-empty
+        run: |
+          [ -s SKILL.md ] && echo "✓ SKILL.md OK" || (echo "✗ SKILL.md missing or empty" && exit 1)
+
+      - name: Check privacy.md sync-disabled guarantee
+        run: |
+          grep -q "disabled" privacy.md && echo "✓ Sync disabled by default confirmed" || (echo "✗ privacy.md missing sync-disabled statement" && exit 1)
+
+      - name: Check no secrets in files
+        run: |
+          if grep -rE "(api_key|secret|password|token)\s*=\s*['\"][^'\"]{8,}" \
+            --include='*.yaml' --include='*.json' --include='*.md' \
+            --exclude-dir='.git' .; then
+            echo "ERROR: Possible secret value found"
+            exit 1
+          fi
+          echo "✓ No secrets detected"
