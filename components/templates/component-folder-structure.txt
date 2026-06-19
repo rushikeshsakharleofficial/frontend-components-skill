@@ -1,0 +1,9 @@
+<component-slug>/
+├── component.json
+├── README.md
+├── source.md
+├── provider-prompt.md
+├── design-dna.json
+├── install.txt
+├── preview.png
+└── code/

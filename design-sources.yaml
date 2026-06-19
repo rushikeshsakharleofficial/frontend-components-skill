@@ -1,0 +1,41 @@
+design_sources:
+  - name: coolors
+    url: https://coolors.co
+    type: color_palette_generator
+    scrape_mode: palette_metadata_or_manual_export
+    use: color_palette_inspiration
+  - name: figma-color-palette-generator
+    url: https://www.figma.com/color-palette-generator/
+    type: color_palette_generator
+    scrape_mode: manual_or_metadata
+    use: color_palette_inspiration
+  - name: color-hunt
+    url: https://colorhunt.co
+    type: handpicked_color_palettes
+    scrape_mode: palette_metadata
+    use: color_palette_inspiration
+  - name: fontpair
+    url: https://fontpair.co
+    type: font_pairing
+    scrape_mode: font_pair_metadata
+    use: typography_pairing
+  - name: realtime-colors
+    url: https://www.realtimecolors.com
+    type: live_theme_preview
+    scrape_mode: manual_export_or_token_capture
+    use: color_theme_preview
+  - name: atmos-style
+    url: https://atmos.style/color-generator
+    type: ui_color_generator
+    scrape_mode: manual_export_or_palette_capture
+    use: brand_and_semantic_colors
+  - name: material-design-tokens
+    url: https://m3.material.io/foundations/design-tokens
+    type: design_token_reference
+    scrape_mode: reference_only
+    use: token_naming_guidance
+  - name: uswds-design-tokens
+    url: https://designsystem.digital.gov/design-tokens/
+    type: design_token_reference
+    scrape_mode: reference_only
+    use: token_category_guidance

@@ -1,0 +1,13 @@
+{
+  "business_domain": "",
+  "page_type": "",
+  "component_role": "",
+  "primary_goal": "",
+  "secondary_goals": [],
+  "framework": "",
+  "styling": "",
+  "visual_style": [],
+  "must_have": ["free tier", "no paid component", "no bypass"],
+  "nice_to_have": [],
+  "avoid": ["paid", "pro", "premium", "generic", "bypass"]
+}

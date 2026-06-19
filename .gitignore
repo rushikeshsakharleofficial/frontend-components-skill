@@ -1,0 +1,25 @@
+# Runtime learning data
+.aiskill-data/
+
+# Environment / secrets
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Dependencies/build
+node_modules/
+dist/
+build/
+.cache/
+
+# Browser/session data
+browser-profile/
+playwright/.auth/
+
+# OS/editor
+.DS_Store
+.idea/
+.vscode/settings.json

@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StoredComponentRecord",
+  "type": "object",
+  "required": ["id", "name", "source_name", "source_url", "category", "free_tier_status", "import_method", "approval_status"],
+  "properties": {
+    "id": { "type": "string", "description": "Unique component ID" },
+    "name": { "type": "string", "description": "Human-readable component name" },
+    "source_name": { "type": "string", "description": "Source: 21st.dev, magic-ui, etc." },
+    "source_url": { "type": "string", "description": "Full URL to component on source" },
+    "registry_url": { "type": "string", "description": "Optional shadcn registry URL" },
+    "local_path": { "type": "string", "description": "Local storage path" },
+    "category": { "type": "string", "description": "21st priority category (hero, features, etc.)" },
+    "matched_page_types": { "type": "array", "items": { "type": "string" }, "description": "Pages this component suits" },
+    "matched_intents": { "type": "array", "items": { "type": "string" }, "description": "conversion, trust, navigation, etc." },
+    "free_tier_status": { "enum": ["free_open_verified", "free_likely", "blocked_paid", "unknown"] },
+    "blocked_reason": { "type": "string", "description": "Why component was blocked if applicable" },
+    "import_method": { "enum": ["shadcn_cli", "copy_paste", "package", "inspiration_only"] },
+    "install_command": { "type": "string" },
+    "provider_prompt_available": { "type": "boolean" },
+    "provider_prompt_path": { "type": "string" },
+    "design_dna_path": { "type": "string" },
+    "preview_screenshot_path": { "type": "string" },
+    "has_code": { "type": "boolean" },
+    "ranking_score": { "type": "number", "minimum": 0, "maximum": 100 },
+    "install_success": { "type": "boolean" },
+    "adaptation_notes": { "type": "string" },
+    "approval_status": { "enum": ["discovered", "approved", "rejected", "predefined"] },
+    "last_checked": { "type": "string", "format": "date-time" },
+    "notes": { "type": "string" }
+  }
+}

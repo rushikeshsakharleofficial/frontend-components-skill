@@ -1,0 +1,26 @@
+auto_sync:
+  enabled: false
+  ask_on_install: true
+  public_repo_safe: true
+  repo_dir: "/path/to/skill/repo"
+  source_dir: ".aiskill-data/frontend-components/components/approved"
+  destination_dir: "references/component-cache"
+  push: true
+  direct_main_push: false
+  auto_merge: false
+  force_push: false
+  branch_mode: "per_component"
+  branch_prefix: "learning/frontend-components"
+  commit_prefix: "component-cache"
+  max_file_size_mb: 2
+  block_patterns:
+    - ".env"
+    - ".env.*"
+    - "*.pem"
+    - "*.key"
+    - "node_modules/"
+    - ".git/"
+    - "browser-profile/"
+    - "paid/"
+    - "pro/"
+    - "premium/"

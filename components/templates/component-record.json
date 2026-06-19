@@ -1,0 +1,20 @@
+{
+  "id": "source-component-slug",
+  "name": "",
+  "source_name": "",
+  "source_url": "",
+  "local_path": "",
+  "component_role": "",
+  "page_types": [],
+  "business_use_cases": [],
+  "free_tier_status": "free_verified|free_likely|blocked_paid|unknown",
+  "import_method": "shadcn_cli|copy_paste|package|inspiration_only",
+  "install_command": "",
+  "has_code": false,
+  "has_provider_prompt": false,
+  "has_design_dna": false,
+  "ranking_score": 0,
+  "approval_status": "discovered|approved|rejected|predefined",
+  "last_checked": "",
+  "notes": ""
+}

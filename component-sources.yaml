@@ -1,0 +1,260 @@
+sources:
+  - name: registry-directory
+    url: https://registry.directory
+    type: shadcn-registry-aggregator
+    priority: 100
+    scrape_mode: install_command
+    import_method: shadcn_cli
+    allowed_use: exact_install
+  - name: shadcn-registry-directory
+    url: https://ui.shadcn.com/docs/directory
+    type: official-registry-directory
+    priority: 98
+    scrape_mode: registry_metadata
+    import_method: shadcn_cli
+    allowed_use: exact_install
+  - name: 21st-dev
+    url: https://21st.dev
+    type: react-tailwind-shadcn-components
+    priority: 95
+    scrape_mode: install_command_or_component_metadata
+    import_method: shadcn_cli_or_copy
+    allowed_use: exact_install_with_license_check
+  - name: magic-ui
+    url: https://magicui.design
+    type: animated-react-tailwind-components
+    priority: 92
+    scrape_mode: component_metadata_and_code
+    import_method: shadcn_style_copy
+    allowed_use: exact_copy_with_license_check
+  - name: blocks-so
+    url: https://blocks.so
+    type: shadcn-tailwind-blocks
+    priority: 90
+    scrape_mode: component_metadata_and_code
+    import_method: copy_paste
+    allowed_use: exact_copy_with_license_check
+  - name: aceternity-ui
+    url: https://ui.aceternity.com
+    type: animated-react-next-tailwind-motion
+    priority: 88
+    scrape_mode: component_metadata_and_code
+    import_method: copy_paste
+    allowed_use: exact_copy_with_license_check
+  - name: kokonut-ui
+    url: https://kokonutui.com
+    type: react-next-tailwind-motion-components
+    priority: 86
+    scrape_mode: component_metadata_and_code
+    import_method: copy_paste_or_shadcn
+    allowed_use: exact_copy_with_license_check
+  - name: untitled-ui-react
+    url: https://www.untitledui.com/react/components
+    type: react-tailwind-react-aria-components
+    priority: 84
+    scrape_mode: component_metadata_and_code
+    import_method: copy_paste
+    allowed_use: exact_copy_with_license_check
+  - name: tailgrids
+    url: https://tailgrids.com
+    type: react-tailwind-components
+    priority: 80
+    scrape_mode: component_metadata_and_code
+    import_method: copy_paste
+    allowed_use: exact_copy_with_license_check
+  - name: hyperui
+    url: https://hyperui.dev
+    type: tailwind-html-components
+    priority: 76
+    scrape_mode: html_tailwind_snippets
+    import_method: copy_paste
+    allowed_use: exact_copy_with_license_check
+  - name: mamba-ui
+    url: https://mambaui.com
+    type: tailwind-html-jsx-components
+    priority: 74
+    scrape_mode: html_jsx_snippets
+    import_method: copy_paste
+    allowed_use: exact_copy_with_license_check
+  - name: meraki-ui
+    url: https://merakiui.com
+    type: tailwind-html-components
+    priority: 72
+    scrape_mode: html_tailwind_snippets
+    import_method: copy_paste
+    allowed_use: exact_copy_with_license_check
+  - name: flowbite
+    url: https://flowbite.com
+    type: tailwind-component-library
+    priority: 70
+    scrape_mode: docs_examples
+    import_method: package_or_copy
+    allowed_use: library_usage
+  - name: preline
+    url: https://preline.co
+    type: tailwind-component-library
+    priority: 68
+    scrape_mode: docs_examples
+    import_method: package_or_copy
+    allowed_use: library_usage
+  - name: flyonui
+    url: https://flyonui.com
+    type: tailwind-component-library
+    priority: 66
+    scrape_mode: docs_examples
+    import_method: package_or_copy
+    allowed_use: library_usage
+  - name: uiverse
+    url: https://uiverse.io
+    type: css-tailwind-ui-effects
+    priority: 64
+    scrape_mode: component_code
+    import_method: copy_paste
+    allowed_use: exact_copy_with_license_check
+  - name: codepen
+    url: https://codepen.io
+    type: frontend-snippet-community
+    priority: 30
+    scrape_mode: inspiration_only
+    import_method: none_by_default
+    allowed_use: inspiration_or_explicit_license_only
+  - name: codemyui
+    url: https://codemyui.com
+    type: ui-snippet-inspiration
+    priority: 28
+    scrape_mode: inspiration_only
+    import_method: none_by_default
+    allowed_use: inspiration_or_explicit_license_only
+
+# 21st.dev Priority Categories
+21st_priority_categories:
+  core_landing:
+    - landing-page
+    - hero
+    - animated-hero-section
+    - features
+    - call-to-action
+    - testimonials
+    - pricing-sections
+    - text-components
+
+  app_shell:
+    - sidebar
+    - menu
+    - menu-bar
+    - modal-dialog
+    - popup
+
+  dashboard_admin:
+    - dashboard
+    - dashboard-widget
+    - admin-panel
+    - card
+    - info-card
+    - empty-state
+
+  ecommerce_b2b:
+    - interactive-product-card
+    - card
+    - pricing-sections
+    - modal-dialog
+    - call-to-action
+    - empty-state
+
+  ai_apps:
+    - ai-chat-components
+    - framer-motion
+    - prompt-input
+    - floating-chat-widget
+
+  polish_effects:
+    - framer-motion
+    - click-animation
+    - buttons
+    - text-components
+    - card
+
+  production_states:
+    - empty-state
+    - loading-state
+    - error-state
+    - alert-dialog
+    - file-upload
+    - dropdown-menu
+    - popover
+    - command-menu
+    - carousel
+    - tabs
+    - search-bar
+    - stats-card
+
+# Page Type to Category Mapping
+page_type_category_map:
+  homepage:
+    required: [hero, features, call-to-action, testimonials]
+    optional: [landing-page, framer-motion, text-components, card]
+
+  landing_page:
+    required: [landing-page, hero, call-to-action, features]
+    optional: [testimonials, pricing-sections, framer-motion, text-components]
+
+  admin_dashboard:
+    required: [dashboard, dashboard-widget, sidebar, card]
+    optional: [admin-panel, modal-dialog, empty-state, menu-bar]
+
+  client_portal:
+    required: [sidebar, dashboard-widget, card, modal-dialog]
+    optional: [empty-state, info-card, menu]
+
+  ecommerce_product_page:
+    required: [interactive-product-card, card, call-to-action, modal-dialog]
+    optional: [pricing-sections, testimonials, empty-state]
+
+  b2b_website:
+    required: [hero, features, call-to-action, testimonials, pricing-sections]
+    optional: [interactive-product-card, modal-dialog, card, empty-state]
+
+  ai_chat_app:
+    required: [ai-chat-components, modal-dialog]
+    optional: [framer-motion, floating-chat-widget, dashboard-widget]
+
+  documentation_site:
+    required: [menu, sidebar, card, text-components]
+    optional: [call-to-action, empty-state]
+
+  monitoring_frontend:
+    required: [dashboard, dashboard-widget, sidebar, card, empty-state]
+    optional: [admin-panel, info-card, modal-dialog, stats-card]
+
+  b2b_ecommerce:
+    required: [interactive-product-card, card, pricing-sections, call-to-action, testimonials]
+    optional: [modal-dialog, empty-state, features, hero]
+
+# Recommended shared prompt extraction behavior for all exact-import sources:
+# prompt_extraction:
+#   enabled: true
+#   modes:
+#     - dom_attribute
+#     - code_block
+#     - clipboard_after_safe_click
+#   button_patterns:
+#     - copy prompt
+#     - copy for claude
+#     - copy for cursor
+#     - copy for v0
+#     - use with ai
+#     - ai prompt
+#   safety_scan: true
+#   store_untrusted: true
+
+# Global cost policy for this skill:
+# cost_policy:
+#   mode: free_only
+#   max_price: 0
+#   allow_trials: false
+#   allow_paid: false
+#   allow_pro: false
+#   allow_login_required_code: false
+#   allow_bypass: false
+#   block_paid_keywords: true
+#   require_free_signal: true

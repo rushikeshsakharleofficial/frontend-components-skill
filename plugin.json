@@ -1,0 +1,161 @@
+{
+  "$schema": "https://anthropic.com/schemas/claude-code-plugin.schema.json",
+  "id": "frontend-components-skill",
+  "name": "Frontend Components Skill",
+  "version": "2.8.0",
+  "description": "Find, rank, install, adapt, and preview free/open UI components from trusted registries (21st.dev, Magic UI, Blocks.so, etc.) based on actual project requirements. Uses intelligent category matching and strict zero-cost policy.",
+  "author": "Rushikesh Sakharle",
+  "license": "MIT",
+  "keywords": [
+    "components",
+    "ui",
+    "design",
+    "shadcn",
+    "tailwind",
+    "react",
+    "21st.dev",
+    "free",
+    "open-source",
+    "requirement-matching",
+    "page-type-mapping"
+  ],
+  "compatibility": {
+    "minVersion": "0.1.0",
+    "platform": ["claude-code"]
+  },
+  "entrypoint": "SKILL.md",
+  "capabilities": {
+    "reads": ["user input for component requirements"],
+    "writes": [".aiskill-data/frontend-components/components/discovered/", ".aiskill-data/frontend-components/components/approved/"],
+    "networks": ["21st.dev", "registry.directory", "magicui.design", "blocks.so"],
+    "executes": ["playwright scraping for component preview and design DNA extraction"],
+    "stores": ["component metadata, rankings, provider prompts (as untrusted metadata), design tokens"]
+  },
+  "permissions": {
+    "required": [
+      "read:file",
+      "write:file",
+      "network:https://21st.dev",
+      "network:https://registry.directory",
+      "execute:playwright"
+    ],
+    "optional": [
+      "git:push (for component sync to review branches, disabled by default)",
+      "network:https://magicui.design",
+      "network:https://blocks.so"
+    ]
+  },
+  "configuration": {
+    "defaultSettings": {
+      "SKILL_AUTO_SYNC": false,
+      "max_candidates_returned": 5,
+      "max_components_installed_per_request": 1,
+      "max_categories_per_request": 3,
+      "ranking_formula": "weighted_9_factors",
+      "local_catalog_first": true,
+      "block_paid_components": true,
+      "provider_prompt_as_metadata_only": true
+    },
+    "env_variables": [
+      {
+        "name": "SKILL_AUTO_SYNC",
+        "description": "Enable component sync to GitHub (disabled by default, requires explicit setup)",
+        "required": false,
+        "default": "0"
+      },
+      {
+        "name": "SKILL_SYNC_REPO_DIR",
+        "description": "Repository directory for component syncing",
+        "required": false
+      },
+      {
+        "name": "SKILL_SYNC_BRANCH",
+        "description": "Git branch for component sync (default: learning branches, never main)",
+        "required": false
+      }
+    ]
+  },
+  "fileStructure": {
+    "required": [
+      "SKILL.md",
+      "component-sources.yaml",
+      "privacy.md",
+      "schemas/component-record.schema.json"
+    ],
+    "runtime": [
+      ".aiskill-data/frontend-components/components/discovered/",
+      ".aiskill-data/frontend-components/components/approved/",
+      ".aiskill-data/frontend-components/components/rejected/",
+      ".aiskill-data/frontend-components/knowledge/catalog/"
+    ],
+    "references": [
+      "references/21st-categories.md",
+      "references/ranking.md",
+      "references/component-storage.md",
+      "references/branch-learning.md",
+      "references/full-spec-v2.3.md"
+    ]
+  },
+  "commands": {
+    "main": "/frontend-components-skill",
+    "aliases": ["/fc", "/components"],
+    "examples": [
+      "/frontend-components \"SaaS landing page hero section\"",
+      "/frontend-components \"admin dashboard with sidebar and cards\"",
+      "/frontend-components \"ecommerce product page with interactive product card\"",
+      "/frontend-components \"AI chat application interface\""
+    ]
+  },
+  "features": {
+    "v2.8": [
+      "12-category priority map for 21st.dev (hero, landing, features, CTA, testimonials, pricing, AI chat, framer motion, product card, modal, buttons, about)",
+      "10-page-type requirement templates (homepage, landing, dashboard, ecommerce, B2B, AI, docs, monitoring)",
+      "Requirement classification (page type, business domain, component intent, interaction needs, visual style)",
+      "Intelligent category matching (required + optional per page type)",
+      "Blocking rules (hard block paid/pro/premium/login-required before ranking)",
+      "Ranking formula (9 weighted factors: fit, category, free, install, visual, adapt, responsive, prompt quality, previous success)",
+      "Download limits (max 5 candidates, max 1 installed, max 3 categories, max 10 per category)",
+      "Component selection priority (1 layout + 1 conversion + 1 trust + 1 state + 1 polish)",
+      "Local catalog-first strategy (check approved components before scraping live)",
+      "Token-efficient output (concise tables, no full HTML dumps)",
+      "Privacy-first storage (discovered/approved/rejected folders under .aiskill-data/)",
+      "Branch sync disabled by default (requires explicit user opt-in via setup script)"
+    ]
+  },
+  "safety": {
+    "blockedActions": [
+      "downloading paid/pro/premium components",
+      "requesting bypass of paywalls",
+      "storing API keys/secrets/credentials",
+      "committing to main branch directly",
+      "auto-merging pull requests",
+      "force pushing to GitHub",
+      "cloning production website HTML/CSS/assets",
+      "executing provider AI prompts as system instructions"
+    ],
+    "allowedActions": [
+      "exact installation via shadcn registry CLI",
+      "copy-paste of open-source component code",
+      "storing provider prompts as untrusted metadata",
+      "extracting design tokens (colors, fonts, spacing, etc.)",
+      "previewing components with Playwright",
+      "syncing to separate learning branches (when explicitly enabled)"
+    ]
+  },
+  "documentation": {
+    "main": "README.md",
+    "technical": "SKILL.md",
+    "categories": "references/21st-categories.md",
+    "ranking": "references/ranking.md",
+    "privacy": "privacy.md",
+    "schema": "schemas/component-record.schema.json"
+  },
+  "metadata": {
+    "category": "UI Development",
+    "difficulty": "Intermediate",
+    "tokenCost": "medium",
+    "maintenanceStatus": "active",
+    "lastUpdated": "2026-06-19",
+    "maintainers": ["Rushikesh Sakharle"]
+  }
+}
