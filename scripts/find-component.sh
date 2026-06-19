@@ -61,7 +61,6 @@ for comp in data.get('components', []):
         f.write(f"**Category:** {comp.get('category', '')}\n")
 
     if comp.get('install_command'):
-        if comp.get('install_command'):
         with open(os.path.join(dest, 'install.txt'), 'w') as f:
             f.write(comp['install_command'])
 
