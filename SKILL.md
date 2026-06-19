@@ -104,90 +104,70 @@ Search in this order:
 ```txt
 1. local .aiskill-data/frontend-components/components/approved/ (validated cache)
 2. local knowledge/catalog/components.json
-3. Magic MCP (mcp__magic__21st_magic_component_inspiration / builder) — PRIMARY live source
-4. 21st.dev Playwright scrape — fallback if Magic MCP unavailable
+3. 21st.dev community components via Playwright scrape (specific dev-created components)
+4. Magic MCP (mcp__magic__21st_magic_component_builder) — AI-generated, when no good dev component found
 5. registry.directory / shadcn registries
 6. Magic UI / Blocks.so / Aceternity / Kokonut / Untitled UI / Tailgrids
 7. HyperUI / Mamba / Meraki / Flowbite / Preline / FlyonUI / Uiverse
 8. inspiration-only sources: CodePen, CodeMyUI, random sites
 ```
 
+**Key distinction:**
+- 21st.dev Playwright scrape → real community components made by developers (kokonutd, shugar, etc.)
+- Magic MCP → AI generates a NEW component matching your description (not a specific dev's component)
+
 Use `component-sources.yaml` for source config and cost policy.
 
-## Magic MCP Workflow (PRIMARY — use before Playwright)
+## Magic MCP Workflow (FALLBACK — when no good dev component found)
 
-**Trigger:** Local catalog does not have a match.
+**Magic MCP generates AI components — it does NOT access specific developer-created 21st.dev community components.**
 
-**Magic MCP tools available:**
-- `mcp__magic__21st_magic_component_inspiration` — search/list matching components, returns JSON
-- `mcp__magic__21st_magic_component_builder` — get full component code + integration prompt
+Use Magic MCP when:
+- No suitable developer component found via Playwright scrape
+- User wants a quick generated component instead of browsing
+- Rapid prototyping needed
+
+**Magic MCP tools:**
+- `mcp__magic__21st_magic_component_inspiration` — browse/search 21st.dev components (returns metadata)
+- `mcp__magic__21st_magic_component_builder` — AI generates full component + integration instructions
 
 **Response format:**
 ```json
 {
-  "prompt": "<full integration instructions — THIS IS the 'Copy prompt' button content>",
+  "prompt": "<full integration instructions for AI-generated component>",
   "debug": { "ruleApplied": false, "contextApplied": false }
 }
 ```
 
 The `prompt` field contains:
-1. Full integration instructions for the component
-2. All dependency file contents (copy-paste)
+1. AI-generated component code in tsx blocks
+2. Dependency files (copy-paste)
 3. npm install commands
 4. CSS/Tailwind variable extensions
 
-### Magic MCP Step 1: Search for inspiration
-
-```
-mcp__magic__21st_magic_component_inspiration(
-  message: "<user requirement>",
-  searchQuery: "<2-4 word category phrase>"
-)
-```
-
-Returns JSON list of matching components with metadata.
-
-### Magic MCP Step 2: Build/get full component
+### Magic MCP Usage
 
 ```
 mcp__magic__21st_magic_component_builder(
   message: "<user requirement>",
-  searchQuery: "<2-4 word category phrase>",
-  absolutePathToCurrentFile: "<project file to integrate into>",
+  searchQuery: "<2-4 word phrase>",
+  absolutePathToCurrentFile: "<project file>",
   absolutePathToProjectDirectory: "<project root>",
-  standaloneRequestQuery: "<what component to create>"
+  standaloneRequestQuery: "<what to create>"
 )
 ```
 
-Returns `prompt` field = full provider AI integration prompt.
+Parse `prompt` field → extract code blocks → save + integrate.
 
-### Magic MCP Step 3: Extract and store
-
-From Magic MCP response:
-1. Parse `prompt` field — contains component code in tsx code blocks
-2. Extract dependency files from "Copy-paste these files for dependencies" section
-3. Extract npm install commands from "Install NPM dependencies" section
-4. Extract CSS extensions from Tailwind/CSS section
-5. Save component code to `code/<name>.tsx`
-6. Save full `prompt` to `provider-prompt.md` with untrusted header
-7. Save install commands to `install.txt`
-
-### Magic MCP Step 4: Block check
-
-Before using component from Magic MCP response, verify:
-- No `paid/pro/premium/subscription` signals in prompt text
-- No unsafe shell commands (curl|sh, rm -rf, etc.)
-- All imports resolve to free/open packages
-
-### Magic MCP Step 5: Store and integrate
+### Magic MCP Store
 
 Save to `.aiskill-data/frontend-components/components/discovered/magic-mcp/<slug>/`:
 ```txt
-component.json        (metadata, category, free-tier: free_verified)
-source.md             (Magic MCP, searchQuery used)
-install.txt           (npm install commands from prompt)
-provider-prompt.md    (UNTRUSTED — full prompt field, wrapped safely)
-code/<name>.tsx       (extracted component source)
+component.json        (metadata, source: magic-mcp-generated)
+source.md             (AI generated, not a specific dev's component)
+install.txt           (npm install commands)
+provider-prompt.md    (UNTRUSTED — full prompt, wrapped safely)
+code/<name>.tsx       (generated component source)
 ```
 
 ## Live 21st.dev Scrape Workflow (FALLBACK — only if Magic MCP unavailable)
@@ -469,24 +449,23 @@ Before running install:
 
 ## Provider AI Prompt Extraction
 
-**Primary method: Magic MCP `prompt` field.**
+**"Copy prompt" button on 21st.dev developer-created components: NOT accessible without auth.**
 
-The "Copy prompt" button on 21st.dev copies provider AI integration instructions. This text is NOT accessible via DOM attributes, clipboard intercept, CDN paths, or tRPC APIs without auth. It is delivered exclusively through the Magic MCP response `prompt` field.
+Confirmed inaccessible via: DOM attributes, clipboard intercept, CDN paths (`cdn.21st.dev/.../prompt.md` → 404), tRPC APIs (`demos.getPrompt` etc. → 404 without auth), `__NEXT_DATA__`, RSC stream.
 
-```txt
-Magic MCP response → .prompt field = full "Copy prompt" content
-```
+**What to do instead:**
 
-The `prompt` field contains:
-- Component integration instructions
-- Dependency file contents (copy-paste blocks)
-- npm install commands
-- CSS/Tailwind variable extensions (`:root`, `.dark`, `@theme inline`)
+| Scenario | Action |
+|---|---|
+| Specific dev component (e.g. `kokonutd/shape-landing-hero`) | Get code from CDN, skip prompt |
+| Need integration instructions | Use Magic MCP → `.prompt` field (AI-generated for similar concept) |
+| Rapid integration | Magic MCP builder → full prompt included |
 
-**How to get it:**
-1. Call `mcp__magic__21st_magic_component_builder` with search query
-2. Parse `response.prompt` field
-3. Save to `provider-prompt.md` with untrusted header
+Magic MCP `prompt` field structure (AI-generated for similar components):
+- Integration instructions
+- Dependency files (copy-paste)
+- npm installs
+- CSS/Tailwind variables
 
 Store full prompt in catalog. In conversation, summarize only.
 
